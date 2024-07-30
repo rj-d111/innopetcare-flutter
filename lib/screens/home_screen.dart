@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:innopetcare/screens/custom_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,22 +12,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset('lib/assets/images/FORT_logo.png', height: 40),
-            SizedBox(width: 10),
-            Text('Fort Deo Animal Clinic'),
-          ],
-        ),
-        backgroundColor: Color(0xff094886),
-        actions: [
-          Icon(Icons.favorite, color: Colors.red),
-          SizedBox(width: 10),
-          Icon(Icons.notifications, color: Colors.white),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -34,29 +20,42 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
-                  Image.asset('lib/assets/images/dog.png'),
-                  SizedBox(height: 10),
-                  Text(
-                    'Welcome to Fort Deo Animal Clinic',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    'Our dedicated veterinarians and staff are passionate about helping your pet live a long and healthy life.',
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'About Us',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Welcome to Fort Deo Animal Clinic',
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              'Our dedicated veterinarians and staff are passionate about helping your pet live a long and healthy life.',
+                              textAlign: TextAlign.start,
+                            ),
+                            SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                'About Us',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xffbc1823),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffbc1823),
-                    ),
+                      SizedBox(width: 10),
+                      Image.asset('lib/assets/images/dog.png', width: 280),
+                    ],
                   ),
                   SizedBox(height: 20),
                   Row(

@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:innopetcare/screens/custom_app_bar.dart';
+import 'package:innopetcare/screens/custom_sub_app_bar.dart';
 import 'package:intl/intl.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: AppointmentPage(),
-    );
-  }
-}
-
 class AppointmentPage extends StatefulWidget {
+  final String title;
+  final String imagepath;
+
+  AppointmentPage({required this.title, required this.imagepath});
+
   @override
   _AppointmentPageState createState() => _AppointmentPageState();
 }
@@ -54,22 +48,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Image.asset('lib/assets/images/FORT_logo.png', height: 40),
-            SizedBox(width: 10),
-            Text('Fort Deo Animal Clinic'),
-          ],
-        ),
-        backgroundColor: Color(0xff094886),
-        actions: [
-          Icon(Icons.favorite, color: Colors.red),
-          SizedBox(width: 10),
-          Icon(Icons.notifications, color: Colors.white),
-          SizedBox(width: 10),
-        ],
-      ),
+      appBar: CustomSubAppBar(title: 'Appointment for ${widget.title}'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -81,18 +60,29 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 Center(
                   child: FractionallySizedBox(
                       widthFactor: 0.75,
-                      child: Image.asset(
-                          'lib/assets/images/dog-stethoscope.webp')),
+                      child:
+                          Image.asset('lib/assets/images/${widget.imagepath}')),
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Set Appointment',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Type of Service *',
+                    border: OutlineInputBorder(),
+                  ),
+                  enabled: false,
+                  initialValue: widget.title,
+                  style: const TextStyle(
+                      color: Colors.black), // Set the desired color here
+                ),
+                const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   value: _selectedPet,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Select Pet *',
                     border: OutlineInputBorder(),
                   ),
@@ -109,7 +99,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () => _selectDateTime(context),
                   child: AbsorbPointer(
@@ -130,9 +120,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Please share condition about your pet *',
                     border: OutlineInputBorder(),
                   ),
@@ -142,9 +132,9 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextFormField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Additional Information',
                     border: OutlineInputBorder(),
                   ),
@@ -154,7 +144,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     });
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
@@ -162,15 +152,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
                         // Handle form submission
                       }
                     },
-                    child: Text(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffbc1823),
+                    ),
+                    child: const Text(
                       'Book Now',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xffbc1823),
                     ),
                   ),
                 ),

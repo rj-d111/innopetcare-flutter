@@ -1,5 +1,3 @@
-// custom_bottom_navigation_bar.dart
-
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -14,31 +12,47 @@ class CustomBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      selectedItemColor: const Color(0xff094886),
-      unselectedItemColor: Colors.grey,
+      backgroundColor: Colors.white,
+      selectedItemColor: const Color(0xFFbc1823), // Red color
+      unselectedItemColor: const Color(0xFF094886), // Blue color
       currentIndex: selectedIndex,
       onTap: onItemTapped,
-      items: const [
+      items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: _buildIcon(Icons.home, 0),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.calendar_today),
-          label: 'Appointments',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.room_service),
+          icon: _buildIcon(Icons.medical_services, 1),
           label: 'Services',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.receipt),
+          icon: _buildIcon(Icons.pets, 2),
+          label: 'Pets',
+        ),
+        BottomNavigationBarItem(
+          icon: _buildIcon(Icons.description, 3),
           label: 'Records',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: _buildIcon(Icons.person, 4),
           label: 'Profile',
         ),
+      ],
+    );
+  }
+
+  Widget _buildIcon(IconData icon, int index) {
+    final isSelected = index == selectedIndex;
+    final color = isSelected ? const Color(0xFFbc1823) : const Color(0xFF094886);
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        CircleAvatar(
+          radius: 20,
+          backgroundColor: color,
+        ),
+        Icon(icon, color: Colors.white),
       ],
     );
   }

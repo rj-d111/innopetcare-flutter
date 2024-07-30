@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:innopetcare/screens/appointment_page.dart';
+import 'package:innopetcare/screens/add_pet.dart';
+import 'package:innopetcare/screens/appointment_page.dart' as appointment;
 import 'package:innopetcare/screens/custom_bottom_navigation_bar.dart';
 import 'package:innopetcare/screens/home_screen.dart';
 import 'package:innopetcare/screens/login_screen.dart';
@@ -22,7 +23,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/register': (context) => RegistrationScreen(),
-        '/appointment': (context) => AppointmentPage(),
+        '/services': (context) => ServicesPage(),
+        '/pets': (context) => AddPet(),
+        '/records': (context) => RecordsPage(),
+        '/profile': (context) => ProfilePage(),
         '/': (context) => const MainScreen(), // Use MainScreen as the home route
       },
     );
@@ -41,10 +45,10 @@ class _MainScreenState extends State<MainScreen> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
-    AppointmentPage(),
-    // ServicesPage(),
-    // RecordsPage(),
-    // ProfilePage(),
+    ServicesPage(),
+    AddPet(),
+    RecordsPage(),
+    ProfilePage(),
   ];
 
   void _onItemTapped(int index) {
