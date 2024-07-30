@@ -1,6 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RegistrationScreen extends StatelessWidget {
+  TextEditingController petOwnerName = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController contact = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  Future register(BuildContext context) async {
+    var url = Uri.http("192.168.1.11", "VetClinicDB/register.php");
+
+    var response = await http.post(url, body: {
+      "pet_owner_name": petOwnerName.text,
+      "email": email.text,
+      "contact": contact.text,
+      "password": password.text,
+    });
+
+    var data = json.decode(response.body);
+    if (data == "Error") {
+      Fluttertoast.showToast(
+        msg: "This User Already Exist",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "Registration Successful",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+      // Redirect to LoginScreen after successful registration
+      Navigator.pushNamed(context, '/login');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,12 +86,13 @@ class RegistrationScreen extends StatelessWidget {
                     Text(
                       'Create new Account',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 4.0),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/');
+                        Navigator.pushNamed(context, '/login');
                       },
                       child: Text(
                         'Already Registered? Login',
@@ -56,6 +102,7 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     TextField(
+                      controller: petOwnerName,
                       decoration: InputDecoration(
                         labelText: 'PET OWNER NAME',
                         border: OutlineInputBorder(),
@@ -63,6 +110,7 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     TextField(
+                      controller: email,
                       decoration: InputDecoration(
                         labelText: 'EMAIL',
                         border: OutlineInputBorder(),
@@ -70,6 +118,7 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     TextField(
+                      controller: contact,
                       decoration: InputDecoration(
                         labelText: 'CONTACT NO.',
                         border: OutlineInputBorder(),
@@ -77,6 +126,7 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 16.0),
                     TextField(
+                      controller: password,
                       decoration: InputDecoration(
                         labelText: 'PASSWORD',
                         border: OutlineInputBorder(),
@@ -94,15 +144,19 @@ class RegistrationScreen extends StatelessWidget {
                     SizedBox(height: 16.0),
                     ElevatedButton(
                       onPressed: () {
-                        // Handle registration
+                        register(context);
                       },
-                      child: Text('SIGN UP'),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 12.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 120.0, vertical: 20.0),
                         backgroundColor: Colors.brown,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
                         ),
+                      ),
+                      child: const Text(
+                        'SIGN UP',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ],

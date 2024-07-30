@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:innopetcare/screens/custom_app_bar.dart';
 import 'package:innopetcare/screens/custom_sub_app_bar.dart';
 import 'package:intl/intl.dart';
+import 'successful_appointment.dart'; // Import the SuccessfulAppointment screen
 
 class AppointmentPage extends StatefulWidget {
   final String title;
@@ -20,6 +21,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
   TimeOfDay _selectedTime = TimeOfDay.now();
   String _petCondition = '';
   String _additionalInfo = '';
+  bool _agreedToTerms = false; // Add a variable to track the checkbox
 
   Future<void> _selectDateTime(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -117,6 +119,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
                           _selectedTime.minute,
                         )),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please select a date and time.';
+                        }
+                        return null;
+                      },
                     ),
                   ),
                 ),
@@ -130,6 +138,12 @@ class _AppointmentPageState extends State<AppointmentPage> {
                     setState(() {
                       _petCondition = value;
                     });
+                  },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please share the condition of your pet.';
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 20),
@@ -145,15 +159,50 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   },
                 ),
                 const SizedBox(height: 20),
+                const Text(
+                    'By completing and submitting this form you agree to the following Terms & Conditions and carefully read and understand the Shelter\'s Liability Waiver. '),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _agreedToTerms,
+                      onChanged: (bool? newValue) {
+                        setState(() {
+                          _agreedToTerms = newValue!;
+                        });
+                      },
+                    ),
+                    const Text('Yes, I agree *')
+                  ],
+                ),
+                const SizedBox(height: 20),
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Handle form submission
+                      if (_formKey.currentState!.validate() && _agreedToTerms) {
+                        // Navigate to SuccessfulAppointment
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SuccessfulAppointment(),
+                          ),
+                        );
+                      } else {
+                        if (!_agreedToTerms) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                  'Please agree to the terms and conditions.'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffbc1823),
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 80.0, vertical: 20.0),
+
                     ),
                     child: const Text(
                       'Book Now',

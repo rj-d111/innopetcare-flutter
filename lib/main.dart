@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:innopetcare/screens/add_pet.dart';
+import 'package:innopetcare/screens/pet.dart';
 import 'package:innopetcare/screens/appointment_page.dart' as appointment;
 import 'package:innopetcare/screens/custom_bottom_navigation_bar.dart';
 import 'package:innopetcare/screens/home_screen.dart';
@@ -21,13 +21,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/login': (context) => const LoginScreen(),
+        '/login': (context) => LoginScreen(),
         '/register': (context) => RegistrationScreen(),
         '/services': (context) => ServicesPage(),
-        '/pets': (context) => AddPet(),
+        '/pets': (context) => Pet(),
         '/records': (context) => RecordsPage(),
         '/profile': (context) => ProfilePage(),
-        '/': (context) => const MainScreen(), // Use MainScreen as the home route
+        '/': (context) =>
+            const MainScreen(), // Use MainScreen as the home route
       },
     );
   }
@@ -46,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   static final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     ServicesPage(),
-    AddPet(),
+    Pet(),
     RecordsPage(),
     ProfilePage(),
   ];

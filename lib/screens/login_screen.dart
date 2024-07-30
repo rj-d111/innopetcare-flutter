@@ -1,7 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  // Controllers to retrieve email and password
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  // Function to handle login
+  Future<void> login(BuildContext context) async {
+    var url = Uri.http("192.168.1.11", "VetClinicDB/login.php");
+    
+    var response = await http.post(url, body: {
+      'email': emailController.text,
+      'password': passwordController.text,
+    });
+
+    var data = json.decode(response.body);
+    if (data == "Success") {
+      Fluttertoast.showToast(
+        msg: "Login Successful",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      // Navigate to HomePage
+      Navigator.pushNamed(context, '/');
+    } else {
+      Fluttertoast.showToast(
+        msg: "Invalid Credentials",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +61,7 @@ class LoginScreen extends StatelessWidget {
           Center(
             child: SingleChildScrollView(
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
                 margin: const EdgeInsets.symmetric(horizontal: 32.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -50,8 +91,7 @@ class LoginScreen extends StatelessWidget {
                     const Text(
                       'Welcome! Login to your account.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     const Text(
                       'Let\'s work together to care for our furry friends.',
@@ -59,15 +99,17 @@ class LoginScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 14.0),
                     ),
                     const SizedBox(height: 16.0),
-                    const TextField(
-                      decoration: InputDecoration(
+                    TextField(
+                      controller: emailController,
+                      decoration: const InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 16.0),
-                    const TextField(
-                      decoration: InputDecoration(
+                    TextField(
+                      controller: passwordController,
+                      decoration: const InputDecoration(
                         labelText: 'Password',
                         border: OutlineInputBorder(),
                       ),
@@ -104,6 +146,7 @@ class LoginScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Handle login
+                        login(context);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
@@ -113,7 +156,7 @@ class LoginScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                      child: const Text('LOG IN'),
+                      child: const Text('LOG IN', style: TextStyle(color: Colors.white),),
                     ),
                   ],
                 ),

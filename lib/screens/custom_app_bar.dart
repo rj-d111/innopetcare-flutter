@@ -8,8 +8,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Image.asset('lib/assets/images/FORT_logo.png', height: 40),
-          SizedBox(width: 10),
-          Text(
+          const SizedBox(width: 10),
+          Text( 
             'Fort Deo Animal Clinic',
             style: TextStyle(color: Colors.white),
           ),
